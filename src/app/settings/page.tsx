@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { User, Shield, Star, Cog } from "lucide-react";
+import { User, Shield, Star, Cog, CreditCard } from "lucide-react";
 import Link from "next/link";
 
 
@@ -59,28 +59,51 @@ export default function SettingsPage() {
     switch (activeTab) {
         case "account":
             return (
-                 <Card>
-                    <CardHeader>
-                        <CardTitle>Profile</CardTitle>
-                        <CardDescription>Update your personal information.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="firstName">First Name</Label>
-                                <Input id="firstName" defaultValue="John" />
+                <div className="space-y-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Profile</CardTitle>
+                            <CardDescription>Update your personal information.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="firstName">First Name</Label>
+                                    <Input id="firstName" defaultValue="John" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="lastName">Last Name</Label>
+                                    <Input id="lastName" defaultValue="Doe" />
+                                </div>
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="lastName">Last Name</Label>
-                                <Input id="lastName" defaultValue="Doe" />
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" type="email" defaultValue="john.doe@example.com" disabled />
                             </div>
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" defaultValue="john.doe@example.com" disabled />
-                        </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                     <Card>
+                        <CardHeader>
+                            <CardTitle>Payment & Billing</CardTitle>
+                            <CardDescription>Manage your payment methods and view your billing history.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                           <div className="flex items-center justify-between p-4 border rounded-lg">
+                               <div className="flex items-center gap-4">
+                                   <CreditCard className="h-8 w-8 text-muted-foreground" />
+                                   <div>
+                                       <p className="font-medium">Visa ending in 1234</p>
+                                       <p className="text-sm text-muted-foreground">Expires 12/2026</p>
+                                   </div>
+                               </div>
+                               <Button variant="outline">Manage</Button>
+                           </div>
+                           <Link href="#">
+                             <Button variant="link" className="p-0">View Billing History</Button>
+                           </Link>
+                        </CardContent>
+                    </Card>
+                </div>
             );
         case "membership":
             return (
@@ -101,7 +124,9 @@ export default function SettingsPage() {
                             </div>
                             <p className="text-sm text-muted-foreground mt-1">85 / 100 generations used this month.</p>
                        </div>
-                        <Button variant="outline">Manage Subscription</Button>
+                        <Link href="/buy-tokens">
+                            <Button variant="outline">Manage Subscription</Button>
+                        </Link>
                     </CardContent>
                 </Card>
             );
