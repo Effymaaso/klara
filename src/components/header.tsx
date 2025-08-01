@@ -1,6 +1,10 @@
+
+'use client';
 import { Sparkles } from "lucide-react";
 import Link from 'next/link';
 import { Button } from "./ui/button";
+import { UserNav } from "./user-nav";
+
 
 export function Header({
   showPricingButton = false,
@@ -17,6 +21,9 @@ export function Header({
     }
   };
 
+  // A simple way to toggle auth state for display
+  const isLoggedIn = !showAuthButtons;
+
   return (
     <header className="border-b bg-card sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -26,19 +33,23 @@ export function Header({
               Posterific
             </h1>
         </Link>
-        {showAuthButtons && (
-            <div className="flex items-center gap-4">
-                {showPricingButton && (
-                    <Button variant="ghost" onClick={handlePricingClick}>Pricing</Button>
-                )}
+        <div className="flex items-center gap-4">
+            {showPricingButton && (
+                <Button variant="ghost" onClick={handlePricingClick}>Pricing</Button>
+            )}
+            {isLoggedIn ? (
+               <UserNav />
+            ) : (
+                <>
                  <Link href="/login">
-                    <Button variant="outline">Login</Button>
-                </Link>
-                 <Link href="/signup">
-                    <Button>Sign Up</Button>
-                </Link>
-            </div>
-        )}
+                        <Button variant="outline">Login</Button>
+                    </Link>
+                     <Link href="/signup">
+                        <Button>Sign Up</Button>
+                    </Link>
+                </>
+            )}
+        </div>
       </div>
     </header>
   );
