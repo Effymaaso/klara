@@ -67,3 +67,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+    @keyframes scroll-x {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+   .animate-scroll-x-1 {
+      animation: scroll-x 40s linear infinite;
+    }
+    .animate-scroll-x-2 {
+      animation: scroll-x 60s linear infinite;
+    }
+}

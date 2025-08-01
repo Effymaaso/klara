@@ -59,7 +59,57 @@ export function LandingPage() {
                 </div>
             </section>
 
-            <section id="pricing" className="py-20 md:py-32">
+            <section className="py-20 bg-background">
+                <div className="container mx-auto">
+                    <h3 className="text-2xl font-bold text-center mb-12 text-muted-foreground">
+                        Trusted by visionary companies worldwide
+                    </h3>
+                    <div className="relative w-full overflow-hidden">
+                        <div className="flex animate-scroll-x-1 space-x-16">
+                            {Array(2).fill(null).map((_, i) => (
+                                <div key={i} className="flex-shrink-0 flex space-x-16">
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 1" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo company" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 2" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo tech" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 3" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo startup" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 4" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo business" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 5" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo brand" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 6" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo design" />
+                                </div>
+                             ))}
+                        </div>
+                    </div>
+                     <div className="relative w-full overflow-hidden mt-8">
+                        <div className="flex animate-scroll-x-2 space-x-16">
+                             {Array(2).fill(null).map((_, i) => (
+                                <div key={i} className="flex-shrink-0 flex space-x-16">
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 7" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo creative" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 8" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo agency" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 9" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo marketing" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 10" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo corporate" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 11" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo media" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 12" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo finance" />
+                                </div>
+                             ))}
+                        </div>
+                    </div>
+                      <div className="relative w-full overflow-hidden mt-8">
+                        <div className="flex animate-scroll-x-1 space-x-16" style={{animationDirection: "reverse"}}>
+                             {Array(2).fill(null).map((_, i) => (
+                                <div key={i} className="flex-shrink-0 flex space-x-16">
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 13" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo consulting" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 14" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo social" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 15" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo innovation" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 16" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo fintech" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 17" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo retail" />
+                                    <Image src="https://placehold.co/150x60.png" alt="Brand Logo 18" width={150} height={60} className="h-12 w-auto" data-ai-hint="logo events" />
+                                </div>
+                             ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pricing" className="py-20 md:py-32 bg-muted/40">
                  <div className="container mx-auto">
                     <h2 className="text-3xl font-bold text-center mb-4">Pricing Plans</h2>
                     <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">Choose a plan that fits your needs. Get started for free and upgrade when you are ready.</p>

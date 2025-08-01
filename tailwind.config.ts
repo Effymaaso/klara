@@ -85,10 +85,16 @@ export default {
             height: '0',
           },
         },
+        'scroll-x': {
+            '0%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(-100%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'scroll-x-1': 'scroll-x 40s linear infinite',
+        'scroll-x-2': 'scroll-x 60s linear infinite',
       },
     },
   },
