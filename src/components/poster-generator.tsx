@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useTransition, useEffect, useMemo, useActionState } from "react";
+import { useState, useTransition, useEffect, useMemo, useActionState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
@@ -55,6 +55,8 @@ import {
   LoaderCircle,
   Wand,
   ImageIcon,
+  Upload,
+  X,
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
@@ -75,6 +77,8 @@ export function PosterGenerator() {
   const [altText, setAltText] = useState<string[]>([]);
   const [isAltTextLoading, setAltTextLoading] = useState(false);
   const [isPopoverOpen, setPopoverOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<PosterFormData>({
     resolver: zodResolver(posterSchema),
@@ -85,6 +89,28 @@ export function PosterGenerator() {
       style: "Minimalist",
     },
   });
+
+  const referenceImage = form.watch("referenceImage");
+
+  useEffect(() => {
+    if (referenceImage && referenceImage.length > 0) {
+      const file = referenceImage[0];
+      if (file instanceof File) {
+        setPreviewUrl(URL.createObjectURL(file));
+      }
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [referenceImage]);
+
+  const handleClearImage = () => {
+    form.setValue("referenceImage", undefined);
+    if(fileInputRef.current) {
+        fileInputRef.current.value = "";
+    }
+    setPreviewUrl(null);
+  };
+
 
   useEffect(() => {
     if (state?.error) {
@@ -170,6 +196,12 @@ export function PosterGenerator() {
                 <form
                   action={(formData) => {
                     startTransition(() => {
+                      const file = form.getValues("referenceImage")?.[0];
+                      if (file instanceof File) {
+                          formData.set("referenceImage", file);
+                      } else {
+                          formData.delete("referenceImage");
+                      }
                       formAction(formData);
                     });
                   }}
@@ -235,6 +267,46 @@ export function PosterGenerator() {
                                 </div>
                               </PopoverContent>
                             </Popover>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                   <FormField
+                    control={form.control}
+                    name="referenceImage"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Reference Image (Optional)</FormLabel>
+                        <FormControl>
+                          <div className="relative w-full h-32 border-2 border-dashed border-muted-foreground/50 rounded-lg flex items-center justify-center text-muted-foreground hover:border-primary transition-colors">
+                            {previewUrl ? (
+                              <>
+                                <Image src={previewUrl} alt="Reference preview" layout="fill" objectFit="contain" className="rounded-lg p-1" />
+                                <Button
+                                  type="button"
+                                  variant="destructive"
+                                  size="icon"
+                                  className="absolute top-2 right-2 h-7 w-7"
+                                  onClick={handleClearImage}
+                                >
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </>
+                            ) : (
+                              <div className="text-center space-y-1">
+                                <Upload className="mx-auto h-8 w-8" />
+                                <span>Click or drag to upload</span>
+                              </div>
+                            )}
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                              {...form.register("referenceImage")}
+                              ref={fileInputRef}
+                            />
                           </div>
                         </FormControl>
                         <FormMessage />

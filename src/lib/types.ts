@@ -1,10 +1,10 @@
-
 import { z } from "zod";
 
 export const posterSchema = z.object({
   textPrompt: z
     .string()
     .min(5, { message: "Please enter text with at least 5 characters." }),
+  referenceImage: z.any().optional(),
   imagePrompt: z
     .string()
     .min(5, { message: "Please describe the image in at least 5 characters." }),
@@ -22,6 +22,9 @@ const GeneratePosterDesignInputSchema = z.object({
   textPrompt: z.string(),
   imagePrompt: z.string(),
   dimensions: z.string(),
+  referenceImage: z.string().optional().describe(
+    "A reference image for the poster, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+  ),
 });
 export type GeneratePosterDesignInput = z.infer<typeof GeneratePosterDesignInputSchema>;
 

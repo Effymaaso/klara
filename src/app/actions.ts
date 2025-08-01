@@ -5,6 +5,13 @@ import { generatePosterDesign } from "@/ai/flows/generate-poster-design";
 import { generateAltText } from "@/ai/flows/generate-alt-text";
 import { posterSchema, type GeneratePosterDesignInput, type GenerateAltTextInput, type ActionState } from "@/lib/types";
 
+async function fileToDataUrl(file: File): Promise<string> {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const base64 = buffer.toString('base64');
+  return `data:${file.type};base64,${base64}`;
+}
+
 
 export async function generatePosterAction(
   prevState: ActionState,
@@ -23,15 +30,21 @@ export async function generatePosterAction(
     };
   }
 
-  const { textPrompt, imagePrompt, dimensions, style } = validatedFields.data;
+  const { textPrompt, imagePrompt, dimensions, style, referenceImage } = validatedFields.data;
 
   try {
     const fullTextPrompt = `${textPrompt} in a ${style} style.`;
+
+    let referenceImageDataUrl: string | undefined = undefined;
+    if (referenceImage && referenceImage.size > 0) {
+      referenceImageDataUrl = await fileToDataUrl(referenceImage);
+    }
 
     const result = await generatePosterDesign({
       textPrompt: fullTextPrompt,
       imagePrompt,
       dimensions,
+      referenceImage: referenceImageDataUrl,
     } as GeneratePosterDesignInput);
 
     if (!result.posterDesigns || result.posterDesigns.length === 0) {
