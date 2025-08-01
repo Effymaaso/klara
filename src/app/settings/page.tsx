@@ -1,4 +1,7 @@
 
+'use client';
+
+import { useState } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -10,11 +13,8 @@ import { User, Shield, Star, Cog } from "lucide-react";
 import Link from "next/link";
 
 
-function SettingsSidebar() {
-    // In a real app, you'd use the router to manage active state
-    const activeItem = "account";
-
-    const baseClasses = "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary";
+function SettingsSidebar({ activeTab, setActiveTab }: { activeTab: string, setActiveTab: (tab: string) => void }) {
+    const baseClasses = "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer";
     const activeClasses = "bg-muted text-primary";
     
     return (
@@ -28,22 +28,22 @@ function SettingsSidebar() {
                 </div>
                 <div className="flex-1">
                     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                        <Link href="#" className={`${baseClasses} ${activeItem === 'account' ? activeClasses : ''}`}>
+                        <a onClick={() => setActiveTab('account')} className={`${baseClasses} ${activeTab === 'account' ? activeClasses : ''}`}>
                             <User className="h-4 w-4" />
                             Account
-                        </Link>
-                        <Link href="#" className={`${baseClasses} ${activeItem === 'membership' ? activeClasses : ''}`}>
+                        </a>
+                        <a onClick={() => setActiveTab('membership')} className={`${baseClasses} ${activeTab === 'membership' ? activeClasses : ''}`}>
                             <Star className="h-4 w-4" />
                             Membership
-                        </Link>
-                         <Link href="#" className={`${baseClasses} ${activeItem === 'privacy' ? activeClasses : ''}`}>
+                        </a>
+                         <a onClick={() => setActiveTab('privacy')} className={`${baseClasses} ${activeTab === 'privacy' ? activeClasses : ''}`}>
                             <Shield className="h-4 w-4" />
                             Privacy
-                        </Link>
-                        <Link href="#" className={`${baseClasses} ${activeItem === 'advanced' ? activeClasses : ''}`}>
+                        </a>
+                        <a onClick={() => setActiveTab('advanced')} className={`${baseClasses} ${activeTab === 'advanced' ? activeClasses : ''}`}>
                             <Cog className="h-4 w-4" />
                             Advanced
-                        </Link>
+                        </a>
                     </nav>
                 </div>
             </div>
@@ -53,70 +53,106 @@ function SettingsSidebar() {
 
 
 export default function SettingsPage() {
+  const [activeTab, setActiveTab] = useState("account");
+
+  const renderContent = () => {
+    switch (activeTab) {
+        case "account":
+            return (
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Profile</CardTitle>
+                        <CardDescription>Update your personal information.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="firstName">First Name</Label>
+                                <Input id="firstName" defaultValue="John" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="lastName">Last Name</Label>
+                                <Input id="lastName" defaultValue="Doe" />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input id="email" type="email" defaultValue="john.doe@example.com" disabled />
+                        </div>
+                    </CardContent>
+                </Card>
+            );
+        case "membership":
+            return (
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Membership</CardTitle>
+                        <CardDescription>Manage your subscription and usage.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                       <div>
+                            <h3 className="font-medium">Current Plan: Pro</h3>
+                            <p className="text-sm text-muted-foreground">Your plan renews on July 31, 2024.</p>
+                       </div>
+                       <div>
+                            <Label>Remaining Tokens</Label>
+                            <div className="h-2 w-full rounded-full bg-muted mt-2">
+                                <div className="h-2 rounded-full bg-primary" style={{width: "85%"}}></div>
+                            </div>
+                            <p className="text-sm text-muted-foreground mt-1">85 / 100 generations used this month.</p>
+                       </div>
+                        <Button variant="outline">Manage Subscription</Button>
+                    </CardContent>
+                </Card>
+            );
+        case "privacy":
+             return (
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Privacy</CardTitle>
+                        <CardDescription>Review and manage your privacy settings.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                       <p className="text-muted-foreground">Privacy settings are not yet available.</p>
+                    </CardContent>
+                </Card>
+            );
+        case "advanced":
+             return (
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Advanced</CardTitle>
+                        <CardDescription>Customize your generation settings.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                       <p className="text-muted-foreground">Advanced prompt editing options coming soon.</p>
+                    </CardContent>
+                </Card>
+            );
+        default:
+            return null;
+    }
+  }
+
+  const pageTitles: {[key: string]: string} = {
+    account: "Account Settings",
+    membership: "Membership Details",
+    privacy: "Privacy Options",
+    advanced: "Advanced Settings"
+  }
+  
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-        <SettingsSidebar />
+        <SettingsSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="flex flex-col">
             <Header showAuthButtons={false} />
             <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                  <div className="flex items-center">
-                    <h1 className="text-lg font-semibold md:text-2xl">Account Settings</h1>
+                    <h1 className="text-lg font-semibold md:text-2xl">{pageTitles[activeTab]}</h1>
                 </div>
                 
                 <div className="space-y-8">
-                     <Card>
-                        <CardHeader>
-                            <CardTitle>Profile</CardTitle>
-                            <CardDescription>Update your personal information.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label htmlFor="firstName">First Name</Label>
-                                    <Input id="firstName" defaultValue="John" />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="lastName">Last Name</Label>
-                                    <Input id="lastName" defaultValue="Doe" />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" defaultValue="john.doe@example.com" disabled />
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                     <Card>
-                        <CardHeader>
-                            <CardTitle>Membership</CardTitle>
-                            <CardDescription>Manage your subscription and usage.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                           <div>
-                                <h3 className="font-medium">Current Plan: Pro</h3>
-                                <p className="text-sm text-muted-foreground">Your plan renews on July 31, 2024.</p>
-                           </div>
-                           <div>
-                                <Label>Remaining Tokens</Label>
-                                <div className="h-2 w-full rounded-full bg-muted mt-2">
-                                    <div className="h-2 rounded-full bg-primary" style={{width: "85%"}}></div>
-                                </div>
-                                <p className="text-sm text-muted-foreground mt-1">85 / 100 generations used this month.</p>
-                           </div>
-                            <Button variant="outline">Manage Subscription</Button>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Advanced</CardTitle>
-                            <CardDescription>Customize your generation settings.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                           <p className="text-muted-foreground">Advanced prompt editing options coming soon.</p>
-                        </CardContent>
-                    </Card>
+                    {renderContent()}
                 </div>
             </main>
         </div>
