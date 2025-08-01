@@ -1,8 +1,14 @@
-import { Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Link from 'next/link';
 import { Button } from "./ui/button";
 
-export function Header({ showPricingButton = false }: { showPricingButton?: boolean }) {
+export function Header({
+  showPricingButton = false,
+  showAuthButtons = true,
+}: {
+  showPricingButton?: boolean;
+  showAuthButtons?: boolean;
+}) {
 
   const handlePricingClick = () => {
     const pricingSection = document.getElementById('pricing');
@@ -20,17 +26,19 @@ export function Header({ showPricingButton = false }: { showPricingButton?: bool
               Posterific
             </h1>
         </Link>
-        <div className="flex items-center gap-4">
-            {showPricingButton && (
-                <Button variant="ghost" onClick={handlePricingClick}>Pricing</Button>
-            )}
-             <Link href="/login">
-                <Button variant="outline">Login</Button>
-            </Link>
-             <Link href="/signup">
-                <Button>Sign Up</Button>
-            </Link>
-        </div>
+        {showAuthButtons && (
+            <div className="flex items-center gap-4">
+                {showPricingButton && (
+                    <Button variant="ghost" onClick={handlePricingClick}>Pricing</Button>
+                )}
+                 <Link href="/login">
+                    <Button variant="outline">Login</Button>
+                </Link>
+                 <Link href="/signup">
+                    <Button>Sign Up</Button>
+                </Link>
+            </div>
+        )}
       </div>
     </header>
   );

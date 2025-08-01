@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Header } from "./header";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Footer } from "./footer";
 
 export function LandingPage() {
 
@@ -181,11 +182,7 @@ export function LandingPage() {
                 </div>
             </section>
         </main>
-        <footer className="border-t">
-            <div className="container mx-auto py-6 text-center text-muted-foreground">
-                <p>&copy; 2024 Posterific. All rights reserved.</p>
-            </div>
-        </footer>
+        <Footer />
     </div>
   );
 }
