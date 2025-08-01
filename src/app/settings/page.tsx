@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { User, Shield, Star, Cog, CreditCard } from "lucide-react";
 import Link from "next/link";
+import { Switch } from "@/components/ui/switch";
 
 
 function SettingsSidebar({ activeTab, setActiveTab }: { activeTab: string, setActiveTab: (tab: string) => void }) {
@@ -134,11 +135,39 @@ export default function SettingsPage() {
              return (
                 <Card>
                     <CardHeader>
-                        <CardTitle>Privacy</CardTitle>
-                        <CardDescription>Review and manage your privacy settings.</CardDescription>
+                        <CardTitle>Privacy Settings</CardTitle>
+                        <CardDescription>Control how your data is used and shared.</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                       <p className="text-muted-foreground">Privacy settings are not yet available.</p>
+                    <CardContent className="space-y-6">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <Label htmlFor="data-sharing">Share Usage Data</Label>
+                                <p className="text-sm text-muted-foreground">Help us improve Posterific by sharing anonymous usage data.</p>
+                            </div>
+                            <Switch id="data-sharing" defaultChecked />
+                        </div>
+                        <Separator />
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <Label htmlFor="marketing-emails">Marketing Emails</Label>
+                                <p className="text-sm text-muted-foreground">Receive updates about new features and special offers.</p>
+                            </div>
+                            <Switch id="marketing-emails" />
+                        </div>
+                        <Separator />
+                        <div className="flex items-center justify-between">
+                             <div>
+                                <Label htmlFor="targeted-ads">Targeted Advertising</Label>
+                                <p className="text-sm text-muted-foreground">Allow us to show you more relevant ads.</p>
+                            </div>
+                            <Switch id="targeted-ads" defaultChecked />
+                        </div>
+                        <Separator />
+                         <div>
+                            <p className="text-sm text-muted-foreground">
+                                For more detailed information, please review our <Link href="#" className="underline text-primary">Privacy Policy</Link>.
+                            </p>
+                        </div>
                     </CardContent>
                 </Card>
             );
