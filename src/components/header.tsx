@@ -24,10 +24,11 @@ export function Header({ showPricingButton = false }: { showPricingButton?: bool
             {showPricingButton && (
                 <Button variant="ghost" onClick={handlePricingClick}>Pricing</Button>
             )}
-            <Link href="/generator">
-                <Button>
-                    Go to Generator <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+             <Link href="/login">
+                <Button variant="outline">Login</Button>
+            </Link>
+             <Link href="/signup">
+                <Button>Sign Up</Button>
             </Link>
         </div>
       </div>
