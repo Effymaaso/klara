@@ -76,7 +76,9 @@ export default function GalleryPage() {
                     />
                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                         <Button size="icon" variant="outline"><Download className="h-5 w-5"/></Button>
-                        <Button size="icon" variant="outline"><Edit className="h-5 w-5"/></Button>
+                        <Link href={`/generator?textPrompt=${encodeURIComponent(poster.title)}&imagePrompt=${encodeURIComponent(poster.hint)}&imageUrl=${encodeURIComponent(poster.imageUrl)}`}>
+                            <Button size="icon" variant="outline"><Edit className="h-5 w-5"/></Button>
+                        </Link>
                         <Button size="icon" variant="destructive"><Trash2 className="h-5 w-5"/></Button>
                     </div>
                   </div>

@@ -5,6 +5,7 @@ import { useState, useTransition, useEffect, useMemo, useActionState, useRef } f
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
+import { useSearchParams } from 'next/navigation'
 import {
   generatePosterAction,
   generateAltTextAction,
@@ -69,6 +70,44 @@ const initialState: ActionState = {
   dimensions: undefined,
 };
 
+function PosterGeneratorForm({form, setPreviewUrl}: {form: any, setPreviewUrl: (url: string | null) => void}) {
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const textPrompt = searchParams.get('textPrompt')
+    const imagePrompt = searchParams.get('imagePrompt')
+    const imageUrl = searchParams.get('imageUrl')
+
+    if (textPrompt) {
+      form.setValue('textPrompt', textPrompt)
+    }
+    if (imagePrompt) {
+      form.setValue('imagePrompt', imagePrompt)
+    }
+    if (imageUrl) {
+        // We can't directly use the remote URL as a File object for the input,
+        // but we can set it as the preview.
+        // We will fetch it and convert to a blob if the user submits.
+        setPreviewUrl(imageUrl);
+        // We could try to fetch and create a File object, but that's more complex.
+        // For now, setting the preview is a good UX indicator.
+        // The user will need to re-upload if they want to use it as a reference for generation.
+        // A better approach would be to download the file, create a blob and then a File object.
+        fetch(imageUrl)
+          .then(res => res.blob())
+          .then(blob => {
+            const file = new File([blob], "reference.png", { type: blob.type });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            form.setValue('referenceImage', dataTransfer.files);
+          })
+          .catch(e => console.error("Could not fetch reference image", e));
+    }
+  }, [searchParams, form, setPreviewUrl])
+
+  return null;
+}
+
 export function PosterGenerator() {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
@@ -98,10 +137,12 @@ export function PosterGenerator() {
       if (file instanceof File) {
         setPreviewUrl(URL.createObjectURL(file));
       }
-    } else {
+    } else if (!searchParams.get('imageUrl')) { // Don't clear if it was set by search param
       setPreviewUrl(null);
     }
   }, [referenceImage]);
+  
+  const searchParams = useSearchParams();
 
   const handleClearImage = () => {
     form.setValue("referenceImage", undefined);
@@ -181,6 +222,7 @@ export function PosterGenerator() {
 
   return (
     <div className="container mx-auto py-8">
+      <PosterGeneratorForm form={form} setPreviewUrl={setPreviewUrl} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
           <Card className="sticky top-8">
