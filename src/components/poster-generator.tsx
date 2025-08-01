@@ -1,8 +1,7 @@
 
 "use client";
 
-import { useState, useTransition, useEffect, useMemo } from "react";
-import { useFormState } from "react-dom";
+import { useState, useTransition, useEffect, useMemo, useActionState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
@@ -71,7 +70,7 @@ const initialState: ActionState = {
 export function PosterGenerator() {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const [state, formAction] = useFormState(generatePosterAction, initialState);
+  const [state, formAction] = useActionState(generatePosterAction, initialState);
 
   const [altText, setAltText] = useState<string[]>([]);
   const [isAltTextLoading, setAltTextLoading] = useState(false);
