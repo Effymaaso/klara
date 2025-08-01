@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -56,6 +56,25 @@ function SettingsSidebar({ activeTab, setActiveTab }: { activeTab: string, setAc
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("account");
 
+  const handleProfileUpdate = () => {
+      // TODO: Implement backend call to update user profile
+      console.log("Updating user profile...");
+      alert("This is a placeholder for updating your profile. See the console for details.");
+  }
+
+  const handleManageBilling = () => {
+      // TODO: Implement redirect to a customer billing portal (e.g., Stripe)
+      console.log("Redirecting to customer billing portal...");
+      alert("This is a placeholder for managing billing. See the console for details.");
+  }
+  
+  const handlePrivacyToggle = (setting: string, value: boolean) => {
+      // TODO: Implement backend call to update the user's privacy setting
+      console.log(`Updating privacy setting '${setting}' to '${value}'`);
+      // You might want to show a toast notification on success/failure
+  }
+
+
   const renderContent = () => {
     switch (activeTab) {
         case "account":
@@ -82,6 +101,9 @@ export default function SettingsPage() {
                                 <Input id="email" type="email" defaultValue="john.doe@example.com" disabled />
                             </div>
                         </CardContent>
+                        <CardFooter>
+                            <Button onClick={handleProfileUpdate}>Save Changes</Button>
+                        </CardFooter>
                     </Card>
                      <Card>
                         <CardHeader>
@@ -97,7 +119,7 @@ export default function SettingsPage() {
                                        <p className="text-sm text-muted-foreground">Expires 12/2026</p>
                                    </div>
                                </div>
-                               <Button variant="outline">Manage</Button>
+                               <Button variant="outline" onClick={handleManageBilling}>Manage</Button>
                            </div>
                            <Link href="#">
                              <Button variant="link" className="p-0">View Billing History</Button>
@@ -144,7 +166,7 @@ export default function SettingsPage() {
                                 <Label htmlFor="data-sharing">Share Usage Data</Label>
                                 <p className="text-sm text-muted-foreground">Help us improve Posterific by sharing anonymous usage data.</p>
                             </div>
-                            <Switch id="data-sharing" defaultChecked />
+                            <Switch id="data-sharing" defaultChecked onCheckedChange={(checked) => handlePrivacyToggle('data-sharing', checked)} />
                         </div>
                         <Separator />
                         <div className="flex items-center justify-between">
@@ -152,7 +174,7 @@ export default function SettingsPage() {
                                 <Label htmlFor="marketing-emails">Marketing Emails</Label>
                                 <p className="text-sm text-muted-foreground">Receive updates about new features and special offers.</p>
                             </div>
-                            <Switch id="marketing-emails" />
+                            <Switch id="marketing-emails" onCheckedChange={(checked) => handlePrivacyToggle('marketing-emails', checked)}/>
                         </div>
                         <Separator />
                         <div className="flex items-center justify-between">
@@ -160,7 +182,7 @@ export default function SettingsPage() {
                                 <Label htmlFor="targeted-ads">Targeted Advertising</Label>
                                 <p className="text-sm text-muted-foreground">Allow us to show you more relevant ads.</p>
                             </div>
-                            <Switch id="targeted-ads" defaultChecked />
+                            <Switch id="targeted-ads" defaultChecked onCheckedChange={(checked) => handlePrivacyToggle('targeted-ads', checked)}/>
                         </div>
                         <Separator />
                          <div>

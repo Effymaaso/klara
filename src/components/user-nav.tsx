@@ -16,6 +16,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, GalleryHorizontal, Settings, LogOut } from "lucide-react"
 
 export function UserNav() {
+
+    const handleLogout = () => {
+        // TODO: Implement backend call to log the user out
+        console.log("User logging out...");
+        alert("This is a placeholder for logging out. See the console for details.");
+        // On success, you would typically redirect to the homepage or login page.
+        // e.g., router.push('/');
+    }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -51,7 +60,7 @@ export function UserNav() {
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
         </DropdownMenuItem>

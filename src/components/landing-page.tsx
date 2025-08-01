@@ -17,6 +17,12 @@ export function LandingPage() {
         }
     };
 
+    const handleContactSales = () => {
+        // TODO: Implement logic to open a contact form or redirect to a contact page.
+        console.log("Contacting Sales...");
+        alert("This is a placeholder for contacting sales. See console for details.");
+    }
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
         <Header showPricingButton={true} />
@@ -175,7 +181,7 @@ export function LandingPage() {
                                 </ul>
                             </CardContent>
                             <CardFooter>
-                                <Button variant="outline" className="w-full">Contact Sales</Button>
+                                <Button variant="outline" className="w-full" onClick={handleContactSales}>Contact Sales</Button>
                             </CardFooter>
                         </Card>
                     </div>

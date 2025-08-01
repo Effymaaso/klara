@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -8,6 +10,13 @@ import Link from "next/link";
 
 
 export default function BuyTokensPage() {
+
+    const handlePurchase = (plan: string, amount: number) => {
+        // TODO: Implement backend call to initiate purchase flow (e.g., Stripe Checkout)
+        console.log(`Initiating purchase for ${plan} plan at $${amount}`);
+        alert(`This is a placeholder for purchasing the ${plan} plan. See the console for details.`);
+    }
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header showAuthButtons={false} />
@@ -33,7 +42,7 @@ export default function BuyTokensPage() {
                         <p className="text-muted-foreground">Tokens</p>
                     </CardContent>
                     <CardFooter>
-                        <Button className="w-full">
+                        <Button className="w-full" onClick={() => handlePurchase('Spark', 5)}>
                             <CreditCard className="mr-2 h-4 w-4" /> Purchase
                         </Button>
                     </CardFooter>
@@ -52,7 +61,7 @@ export default function BuyTokensPage() {
                         <p className="text-muted-foreground">Tokens</p>
                     </CardContent>
                     <CardFooter>
-                        <Button className="w-full">
+                        <Button className="w-full" onClick={() => handlePurchase('Creative', 15)}>
                             <CreditCard className="mr-2 h-4 w-4" /> Purchase
                         </Button>
                     </CardFooter>
@@ -71,7 +80,7 @@ export default function BuyTokensPage() {
                         <p className="text-muted-foreground">Tokens</p>
                     </CardContent>
                     <CardFooter>
-                         <Button className="w-full">
+                         <Button className="w-full" onClick={() => handlePurchase('Powerhouse', 40)}>
                             <CreditCard className="mr-2 h-4 w-4" /> Purchase
                         </Button>
                     </CardFooter>
